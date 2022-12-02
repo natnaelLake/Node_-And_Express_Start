@@ -1,0 +1,26 @@
+{
+  "name": "startnode",
+  "version": "1.0.0",
+  "description": "this is the first git commit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natnaelLake/Node_-And_Express_Start.git"
+  },
+  "author": "Natnael Lake",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natnaelLake/Node_-And_Express_Start/issues"
+  },
+  "homepage": "https://github.com/natnaelLake/Node_-And_Express_Start#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "morgan": "^1.10.0"
+  }
+}
