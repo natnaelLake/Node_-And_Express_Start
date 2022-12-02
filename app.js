@@ -1,16 +1,24 @@
-const express = require('express');
-const app = express();
 
-app.get('/', (req, res) => {
-    res.send('this is the page of get.');
+const express = require('express');
+const port = process.env.PORT || 5000;
+const hostname = 'localhost';
+const path = require('path');
+
+
+
+const filepath = path.resolve(__dirname,'public','index.html')
+const app = express();
+app.get('/', (req,res) => {
+    res.sendFile(filepath)  
+})
+app.use((err, req, res, next)=>{
+    console.error(err);
+    next(err)
+})
+app.use((err, req, res, next) => {
+    res.status(404).send("There is the error of server.")
+})
+app.listen(port,hostname,() =>
+{
+    console.log(`the server is run on: http://${hostname}:${port}`)
 });
-app.post('/', (req, res) => {
-    res.send("this is  the page of post.");
-})
-app.put('/', (req, res) => {
-    res.send("this is the page of put.");
-})
-app.delete('/', (req, res) => {
-    res.send("this is the page of delete.");
-})
-app.listen(5000)
