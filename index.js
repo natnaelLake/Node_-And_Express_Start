@@ -1,34 +1,31 @@
-const express = require('express');
-const app = express();
-const assert = require('assert');
-const dboper = require('./operations')
-const {MongoClient} = require('mongodb');const router = express.Router();
-var url = "mongodb://localhost:27017/";
-const dbName = 'natnael';
-const userRouter = require('./Router/users')
-MongoClient.connect(url).then((client) => {
-    console.log('Connected to the database');
-    const db = client.db(dbName);
-    dboper.insertDocument(db, { name: "Bewuketu", last: "lake", email: "natilake12@gmail.com", password: "welcomewel" }, "nati").then((result) => {
-        console.log("Insert Document:\n", result.ops);
+const mongoose = require('mongoose');
 
-        return dboper.findDocuments(db, 'nati')
-    }).then((docs) => {
-        console.log('Found Documents:\n', docs);
-        return dboper.updateDocument(db, { name: 'Bewuketu' }, { email: 'updatedemail@gmail.com' }, 'nati')
-    }).then((result) => {
-        console.log("The updated data is : \n", result);
-        return dboper.findDocuments(db, 'nati')
-    }).then((result) => {
-        console.log('Found Documents:\n', result);
-        return db.dropCollection('nati')
-    }).then((result) => {
-        console.log('the dropped collection is: ', result);
-        client.close();
+const Dish = require('./models/dishes');
+
+const url = 'mongodb://localhost:27017/natnael';
+const connect = mongoose.connect(url);
+
+connect.then((db) => {
+    console.log('Connected Correctly to server');
+
+    var newDish = Dish({
+        name: 'Bewuketu',
+        description: 'test'
     })
-}).catch((err) => {
-    console.log(err);
+newDish.save()
+    .then((dish) => {
+        console.log(dish);
+
+        return Dish.find({}).exec();
+    })
+    .then((dishes) => {
+        console.log(dishes);
+        return Dish.remove({})
+    })
+    .then(() => {
+        return mongoose.connection.close();
+    })
 })
-app.listen(3000, () => {
-    console.log("the server running on: http://localhost:3000")
-});
+.catch((err) => {
+    console.error(err)
+})
